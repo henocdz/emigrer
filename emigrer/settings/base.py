@@ -10,6 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
+#Settings for dependencies
+from .dependencies.pipeline import *
+from .dependencies.bower import *
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -43,6 +47,7 @@ INSTALLED_APPS = (
 
     #Third-party apps
     'djangobower',
+    'pipeline',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -54,6 +59,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'pipeline.middleware.MinifyHTMLMiddleware',
 )
 
 ROOT_URLCONF = 'emigrer.urls'
@@ -113,14 +120,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder',
+    'pipeline.finders.PipelineFinder',
 )
-
-#BOWER SETTINGS
-
-BOWER_INSTALLED_APPS = ('underscore#1.8.3',)
-
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
