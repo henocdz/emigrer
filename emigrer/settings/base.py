@@ -37,6 +37,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #Project apps
+    'landing',
+
+    #Third-party apps
+    'djangobower',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,8 +105,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+#BOWER SETTINGS
+
+BOWER_INSTALLED_APPS = ('underscore#1.8.3',)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
